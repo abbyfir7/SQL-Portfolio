@@ -1,0 +1,28 @@
+--Create a sports store database
+CREATE TABLE sports_store (id INTEGER PRIMARY KEY, sport_category TEXT, item_category TEXT, size TEXT, color TEXT, price INTEGER);
+
+--Insert store items 
+INSERT INTO sports_store VALUES (1, "Soccer", "Jersey", "S", "Red", 12);
+INSERT INTO sports_store VALUES (2, "Soccer", "Jersey", "M", "Red", 12);
+INSERT INTO sports_store VALUES (3, "Soccer", "Jersey", "L", "Red", 12);
+INSERT INTO sports_store VALUES (4, "Soccer", "Jersey", "S", "Blue", 12);
+INSERT INTO sports_store VALUES (5, "Soccer", "Jersey", "M", "Blue", 12);
+INSERT INTO sports_store VALUES (6, "Soccer", "Jersey", "L", "Blue", 12);
+INSERT INTO sports_store VALUES (7, "Soccer", "Shorts", "S", "Black", 8);
+INSERT INTO sports_store VALUES (8, "Soccer", "Shorts", "M", "Black", 8);
+INSERT INTO sports_store VALUES (9, "Soccer", "Shorts", "L", "Black", 8);
+INSERT INTO sports_store VALUES (10, "Baseball", "Pants", "S", "Tan", 10);
+INSERT INTO sports_store VALUES (11, "Baseball", "Pants", "M", "Tan", 10);
+INSERT INTO sports_store VALUES (12, "Baseball", "Pants", "L", "Tan", 10);
+INSERT INTO sports_store VALUES (13, "Baseball", "Ball", "M", "Pink", 5);
+INSERT INTO sports_store VALUES (14, "Baseball", "Ball", "M", "Green", 5);
+INSERT INTO sports_store VALUES (15, "Soccer", "Ball", "M", "Yellow", 6);
+
+--Display database ordered by price
+SELECT * FROM sports_store ORDER BY price;
+
+--Display database of Soccer items ordered by price
+SELECT * FROM sports_store WHERE sport_category = "Soccer" ORDER BY price;
+
+-what is the average price of bottoms
+SELECT AVG(price) FROM sports_store WHERE item_category = "Pants" OR item_category = "Shorts";
