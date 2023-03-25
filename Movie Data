@@ -1,0 +1,41 @@
+--database from https://gist.github.com/pamelafox/c705b02114ea3db0dff0
+
+--average/max/min values
+SELECT ROUND(AVG(worldwide)) as avg_worldwide_earning 
+FROM topmovies;
+
+SELECT MAX(worldwide) as max_worldwide_earning, title 
+FROM topmovies;
+
+SELECT MIN(worldwide) as min_worldwide_earning, title 
+FROM topmovies;
+
+--use where/having
+SELECT MAX(worldwide) as max_worldwide_earning, title 
+FROM topmovies 
+WHERE year < 2000;
+
+SELECT SUM(worldwide), studio 
+FROM topmovies 
+GROUP BY studio 
+HAVING SUM(worldwide) < 1000;
+
+--group data using case
+SELECT title, CASE
+WHEN year < 1980 then "Older"
+WHEN year < 2000 then "Old"
+WHEN year < 2010 then "Recent"
+WHEN year < 2030 then "New"
+end as age_category
+FROM topmovies
+ORDER BY year;
+
+
+--use and/or
+SELECT rank, title 
+FROM topmovies 
+WHERE studio = "Fox" OR studio = "Uni.";
+
+SELECT rank, title
+FROM topmovies
+WHERE studio = "Fox" AND year > 2000;
