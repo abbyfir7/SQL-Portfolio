@@ -1,3 +1,5 @@
+--Querying a database with multiple tables in it to quantify statistics about customer and order data. 
+
 --How many orders were placed in January?
 SELECT
     COUNT(orderID) AS 'Count of January Orders'
