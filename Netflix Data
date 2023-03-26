@@ -1,0 +1,39 @@
+--Querying a database holding Neflix data to answer questions about the data.
+
+--How many movie titles are there in the database? (movies only, not TV shows)
+SELECT
+    COUNT("nti"."title") AS "Number of Movies"
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" nti
+WHERE "nti"."type" = 'Movie';
+
+--When was the most recent batch of tv shows and/or movies added to the database?
+SELECT
+    "nti"."date_added" AS "Latest Batch Added"
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" nti
+WHERE "nti"."date_added" IS NOT NULL
+ORDER BY "nti"."date_added" desc
+LIMIT 1;
+
+--List all the movies and tv shows in alphabetical order.
+SELECT 
+    "nti"."title" AS "Title",
+    "nti"."type" AS "Movie or TV Show"
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" nti
+ORDER BY "Title";
+
+--Who was the Director for the movie Bright Star?
+SELECT
+    "np"."director" AS "Director"
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" np
+JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" nti
+ON "nti"."show_id" = "np"."show_id"
+WHERE "nti"."title" = 'Bright Star';
+
+--What is the oldest movie in the database and what year was it made?
+SELECT
+    "nti"."title" AS "Title",
+    "nti"."release_year" AS "Release Year"
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" nti
+WHERE "nti"."type" = 'Movie'
+ORDER BY "Release Year" ASC
+LIMIT 1;
