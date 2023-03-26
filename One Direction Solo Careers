@@ -1,0 +1,87 @@
+/*Data pulled from Wikipedia*/
+
+CREATE TABLE one_direction (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);
+
+INSERT INTO one_direction VALUES (1, "Niall Horan");
+INSERT INTO one_direction VALUES (2, "Harry Styles");
+INSERT INTO one_direction VALUES (3, "Liam Payne");
+INSERT INTO one_direction VALUES (4, "Zayn Malik");
+INSERT INTO one_direction VALUES (5, "Louis Tomlinson");
+
+CREATE TABLE audition (id INTEGER PRIMARY KEY, member_id INTEGER, hometown TEXT, audition_age INTEGER, audition_song TEXT);
+
+INSERT INTO audition VALUES (1, 1, "Mullingar", 16, "So Sick");
+INSERT INTO audition VALUES (2, 2, "Holmes Chapel", 16, "Isn't She Lovely");
+INSERT INTO audition VALUES (3, 3, "Wolverhampton", 16, "Cry Me a River");
+INSERT INTO audition VALUES (4, 4, "Bradford", 17, "Let Me Love You");
+INSERT INTO audition VALUES (5, 5, "Doncaster", 18, "Hey There Delilah");
+
+CREATE TABLE solo_albums (id INTEGER PRIMARY KEY, member_id INTEGER, album_title TEXT, release_year INTEGER, us_sales INTEGER);
+
+INSERT INTO solo_albums VALUES (1, 1, "Flicker", 2017, 152000);
+INSERT INTO solo_albums VALUES (2, 1, "Heartbreak Weather", 2020, 607000);
+INSERT INTO solo_albums VALUES (3, 2, "Harry Styles", 2017, 386000);
+INSERT INTO solo_albums VALUES (4, 2, "Fine Line", 2019, 1000000);
+INSERT INTO solo_albums VALUES (5, 2, "Harry's House", 2022, 757000);
+INSERT INTO solo_albums VALUES (6, 3, "LP1", 2019, 10000);
+INSERT INTO solo_albums VALUES (7, 4, "Mind of Mine", 2016, 112000);
+INSERT INTO solo_albums VALUES (8, 4, "Icarus Falls", 2018, 4000);
+INSERT INTO solo_albums VALUES (9, 4, "Nobody is Listening", 2021, 4000);
+INSERT INTO solo_albums VALUES (10, 5, "Walls", 2020, 39000);
+INSERT INTO solo_albums VALUES (11, 5, "Faith in the Future", 2022, 37500);
+
+--How old were they when they auditioned for the X Factor?
+SELECT 
+    oned.name AS Member, 
+    a.audition_age AS "Audition Age"
+FROM one_direction oned
+JOIN audition a ON a.member_id = oned.id 
+ORDER BY a.audition_age;
+
+--What are their total US sales as solo artists?
+SELECT
+    oned.name AS Member, 
+    SUM(s.us_sales) AS "Total US Sales"
+FROM one_direction oned
+JOIN solo_albums s ON oned.id = s.member_id
+GROUP BY oned.name
+ORDER BY "Total US Sales" DESC;
+
+--How many solo albums have they each released?
+SELECT
+    oned.name AS Member,
+    COUNT(s.album_title) as "Number of Solo Albums"
+FROM one_direction oned
+JOIN solo_albums s ON oned.id = s.member_id
+GROUP BY oned.name
+ORDER BY "Number of Solo Albums" DESC;
+
+--How do their solo albums sales comepare based on the age they were when they auditioned?
+SELECT 
+    oned.name AS Member,
+    a.audition_age AS "Audition Age",
+    SUM(s.us_sales) AS "Total US Sales"
+FROM one_direction oned
+JOIN audition a ON a.member_id = oned.id
+JOIN solo_albums s ON s.member_id = oned.id
+GROUP BY oned.name
+ORDER BY "Total US Sales" DESC;
+
+--In what order did their solo albums come out?
+SELECT
+    s.album_title AS "Album Title",
+    oned.name AS Member,
+    s.release_year AS "Release Year"
+FROM solo_albums s 
+JOIN one_direction oned ON oned.id = s.member_id
+ORDER BY "Release Year";
+
+--Which member has the album with the highest US sales?
+SELECT 
+    oned.name AS Member,
+    s.album_title AS "Album Title",
+    s.us_sales AS "US Sales"
+FROM one_direction oned 
+JOIN solo_albums s ON s.member_id = oned.id
+ORDER BY "US Sales" DESC
+LIMIT 1;
